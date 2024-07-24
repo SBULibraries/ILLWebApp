@@ -1,0 +1,35 @@
+/* Light Theme */
+body {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+#main-container {
+    background: #fff;
+    border: 1px solid #ddd;
+}
+
+h1 {
+    color: #007BFF;
+}
+
+#inputs input[type="number"] {
+    border: 1px solid #ccc;
+}
+
+#inputs button {
+    background-color: #007BFF;
+    color: #fff;
+}
+
+#inputs button:hover {
+    background-color: #0056b3;
+}
+
+#output-detail th {
+    background-color: #f1f1f1;
+}
+
+#output-detail tr:nth-child(even) {
+    background-color: #f9f9f9;
+}

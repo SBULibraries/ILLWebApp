@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBU Boosted Group Builder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<div id="top-container">
+    <h1>SBU Lender String Builder</h1>
+    <div id="upload-box">
+            <h2>Upload Files</h2>
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <input type="file" name="files" accept=".xls,.xlsx" multiple>
+                <button type="submit">Upload</button>
+                <button type="button" onclick="clearUploads()">Clear Uploads</button>
+            </form>
+        </div>
+        <div id="file-viewer">
+            <h2>File Viewer</h2>
+            <p>{{ month_values | join("<br>") | safe }}</p>
+        </div>
+    </div>
+<div id="main-container">
+    <h1>Parameters</h1>
+    <div id="inputs-container">
+        <div class="input-group">
+            <label for="min_data">Min Transactions: 
+                <span class="tooltip-container">
+                    <span class="tooltip-icon" data-tooltip="Minimum number of transactions required for a symbol to be considered.">i</span>
+                </span>
+            </label>
+            <input type="number" id="min_data" name="min_data" min="1" value="5">
+        </div>
+        <div class="input-group">
+            <label for="max_price">Max Price: 
+                <span class="tooltip-container">
+                    <span class="tooltip-icon" data-tooltip="Maximum mean price per request in dollars.">i</span>
+                </span>
+            </label>
+            <input type="number" id="max_price" name="max_price" min="0" step="0.01" value="1">
+        </div>
+        <div class="input-group">
+            <label for="turnaround_time">Max Turnaround Time: 
+                <span class="tooltip-container left">
+                    <span class="tooltip-icon" data-tooltip="Maximum mean days for turnaround in days. Material delivered under 24 hours are 0.">i</span>
+                </span>
+            </label>
+            <input type="number" id="turnaround_time" name="turnaround_time" min="0" step="0.1" value="0.1">
+        </div>
+    </div>
+    <div id="type-options">
+        <label>Type:</label>
+        <input type="radio" id="article" name="toggle_var" value="Article" checked>
+        <label for="article">Article</label>
+        <input type="radio" id="loan" name="toggle_var" value="Loan">
+        <label for="loan">Loan</label>
+    </div>
+    <div id="buttons-container">
+        <button onclick="processData()">Go</button>
+        <button onclick="clearOutput()">Clear</button>
+    </div>
+    </div>
+    
+    <div id="output">
+        <h1>Results</h1>
+        <h2>Custom Holdings String</h2>
+        <div id="output-list"></div>
+        
+        <h2>Detail</h2>
+        <table id="output-detail">
+            <thead>
+                <tr>
+                    <th>Symbol</th>
+                    <th>Transactions</th>
+                    <th>Price</th>
+                    <th>Turnaround Time</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+    <script>
+        function processData() {
+            const minData = document.getElementById('min_data').value;
+            const maxPrice = document.getElementById('max_price').value;
+            const turnaroundTime = document.getElementById('turnaround_time').value;
+            const toggleVar = document.querySelector('input[name="toggle_var"]:checked').value;
+            
+            axios.post('/process', {
+                min_data: minData,
+                max_price: maxPrice,
+                turnaround_time: turnaroundTime,
+                toggle_var: toggleVar
+            })
+            .then(response => {
+                const data = response.data;
+                // Display list
+                document.getElementById('output-list').innerHTML = data.symbols.join(' ');
+                // Display detailed info
+                const tbody = document.querySelector('#output-detail tbody');
+                tbody.innerHTML = ''; // Clear existing rows
+                data.detailed.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${item.symbol}</td>
+                        <td>${item.transactions}</td>
+                        <td>${item.price}</td>
+                        <td>${item.turnaround_time}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error processing data:', error);
+            });
+        }
+
+        function clearOutput() {
+            document.getElementById('output-list').innerHTML = '';
+            document.querySelector('#output-detail tbody').innerHTML = '';
+        }
+
+        function clearUploads() {
+            if (confirm("Are you sure you want to clear the uploads?")) {
+                axios.post('/clear_uploads')  // Ensure this is a POST request
+                    .then(response => {
+                        alert('Uploads cleared successfully');
+                        location.reload();
+                    })
+                    .catch(error => {
+                        console.error('Error clearing uploads:', error);
+                    });
+            }
+        }
+    </script>    
+</body>
+</html>

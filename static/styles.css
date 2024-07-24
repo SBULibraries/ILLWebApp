@@ -1,0 +1,200 @@
+/* Modernizing font and layout */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+#main-container, #top-container, #output {
+    width: 90%;
+    max-width: 1200px;
+    margin: 15px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+#top-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Align items to the top */
+}
+
+#upload-box, #file-viewer {
+    border: 1px solid #ddd;
+    padding: 15px;
+    width: 45%;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.tooltip-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #990000;
+    color: white;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 14px;
+    line-height: 20px;
+    user-select: none;
+}
+
+.tooltip-icon::after {
+    content: attr(data-tooltip);
+    display: none;
+    position: absolute;
+    white-space: normal; /* Allows text wrapping */
+    background-color: #fff;
+    color: #333;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    max-width: 900px;
+    left: 120%; 
+    top: 50%; 
+    transform: translateY(-50%);
+    z-index: 1000; /* Ensure it's on top */
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1); /* Optional: add shadow for better visibility */
+    box-sizing: border-box; /* Includes padding in width calculation */
+}
+
+.tooltip-icon:hover::after {
+    display: block;
+}
+
+
+h1 {
+    color: #990000;
+    margin-bottom: 15px;
+}
+
+#inputs-container {
+    display: flex;
+    justify-content: space-between; /* Distribute space between children */
+    margin-bottom: 10px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1; /* Allow each input group to grow */
+}
+
+.input-group.center {
+    align-items: center;
+}
+
+.input-group.right {
+    align-items: flex-end;
+}
+
+#inputs-container label, #type-options label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+#inputs-container input, #type-options input[type="number"],
+#inputs-container input, #type-options input[type="radio"] {
+    margin-bottom: 10px;
+}
+
+#inputs-container input, #type-options input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+#inputs-container input, #type-options input[type="radio"] {
+    margin-right: 5px;
+}
+
+/* General button styling */
+button {
+    background-color: #990000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Hover effect for buttons */
+button:hover {
+    background-color: #cc0000; /* Darker red for hover effect */
+    transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
+
+/* Specific styling for buttons in #upload-box */
+#upload-box button {
+    margin-top: 10px; /* Adjust margin if needed */
+}
+
+/* Adjust the file input element */
+#upload-box input[type="file"] {
+    margin-top: 10px; /* Adjust margin to align with the buttons */
+}
+
+#output h2 {
+    margin-top: 0;
+    color: #990000;
+}
+
+#output-list {
+    background: #e9ecef;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+#output-detail {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+#output-detail th,
+#output-detail td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+#output-detail th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
+
+#output-detail tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#type-options {
+    display: flex;
+    align-items: center;
+}
+
+#type-options label, #type-options input {
+    margin-right: 10px;
+    padding: 1px;
+    margin-bottom: 10px;
+}

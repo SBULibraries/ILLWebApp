@@ -1,0 +1,37 @@
+/* Dark Theme */
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+#main-container {
+    background: #1e1e1e;
+    border: 1px solid #333;
+}
+
+h1 {
+    color: #1e90ff;
+}
+
+#inputs input[type="number"] {
+    border: 1px solid #555;
+    background: #333;
+    color: #e0e0e0;
+}
+
+#inputs button {
+    background-color: #1e90ff;
+    color: #fff;
+}
+
+#inputs button:hover {
+    background-color: #104e8b;
+}
+
+#output-detail th {
+    background-color: #333;
+}
+
+#output-detail tr:nth-child(even) {
+    background-color: #252525;
+}
